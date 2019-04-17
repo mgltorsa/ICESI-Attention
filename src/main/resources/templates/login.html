@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="login.css" type="text/css">
+    <title>Login</title>
+</head>
+
+<body>
+    <ul class="nav">
+        <li onclick="showLogin()">Login</li>
+        <li onclick="showSignup()">Sign up</li>
+    </ul>
+    <div class="wrapper">
+        <div class="rec-prism">
+
+            <div class="face face-front">
+                <div class="content">
+                    <h2>Sign in</h2>
+                    <form th:action="@{/login}" method="POST">
+                        <div class="field-wrapper" th:if="${error != null}">
+                            <p th:if="${error != null}" th:text="${error}"></p>
+                        </div>
+                        <div class="field-wrapper" th:if="${message != null}">
+                            <p th:if="${message != null}" th:text="${message}"></p>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="text" name="username" placeholder="username">
+                            <label>username</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="password" name="password" placeholder="password" autocomplete="new-password">
+                            <label>password</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="submit" name="submit" value="submit">
+                        </div>
+                        <span class="psw">Forgot Password?   </span>
+                        <span class="signup">Not a user?  Sign up</span>
+                    </form>
+
+                    <div>
+                        <span style="font-size:11px;">Para realizar test los usuarios son:
+                        </span>
+                        <br>
+                        <span style="font-size:11px;">User: admin - Password: 123</span>
+                        <br>
+                        <span style="font-size:11px;">User: Rgn - Password: 123</span>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="face face-right">
+                <div class="content">
+                    <h2>Sign up</h2>
+                    <form th:action="@{/signup}">
+
+                        <div class="field-wrapper">
+                            <input type="text" placeholder="Id">
+                            <label>My Id</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="text" name="email" placeholder="email">
+                            <label>e-mail</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="text" placeholder="Nombre">
+                            <label>Name</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="text" placeholder="Apellidos">
+                            <label>Last name</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="password" name="password" placeholder="password" autocomplete="new-password">
+                            <label>password</label>
+                        </div>
+                        <div class="field-wrapper">
+                            <input type="submit">
+                        </div>
+                        <span class="singin" onclick="showLogin()">Already a user?  Sign in</span>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <script src="login.js"></script>
+</body>
+
+</html>

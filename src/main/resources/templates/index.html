@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Index</title>
+</head>
+
+<body>
+
+    <div class="about">
+        <p><a style="display:inline-block;" href="https://github.com/mgltorsa/ICESI-Attention" target="_blank">By: Miguel Torres </a></p>
+    </div>
+    <h1 th:text="${'Welcome '+userName}"> </h1>
+    <div class="wrapper">
+
+        <div class="content">
+
+
+            <!-- card -->
+            <a th:href="@{/add-supply}" class="card">
+
+                <div class="icon">
+                    <i class="material-icons md-36">add_shopping_cart</i>
+                </div>
+                </input>
+                <p class="title">Supply</p>
+                <p class="text">Click to create a supply.</p>
+
+            </a>
+
+            <!-- card -->
+            <a th:href="@{/attend}" class="card">
+
+                <div class="icon">
+                    <i class="material-icons md-36">local_hospital</i>
+                </div>
+                </input>
+                <p class="title">Urgency</p>
+                <p class="text">Click to attend patient.</p>
+
+            </a>
+            <!-- end card -->
+            <!-- card -->
+            <a th:href="@{/consultByDate?type=attention}" class="card">
+
+                <div class="icon"><i class="material-icons md-36">person</i></div>
+                <p class="title">Consult attention</p>
+                <p class="text">Check attentions</p>
+
+            </a>
+            <!-- end card -->
+            <!-- card -->
+            <a th:href="@{/consultByDate?type=supply}" class="card">
+
+                <div class="icon"><i class="material-icons md-36">local_shipping</i></div>
+                <p class="title">Consult supplies</p>
+                <p class="text">Check supplies</p>
+
+            </a>
+            <!-- end card -->
+            <form th:action="@{/logout}" method="POST" class="card">
+                <div class="icon"><i class="material-icons md-36">error</i></div>
+                <p class="title">Log out</p>
+                <p class="text">Click to finish the current session</p>
+            </form>
+
+
+
+        </div>
+    </div>
+
+
+    <script src="index.js"></script>
+
+
+
+
+</body>
+
+</html>

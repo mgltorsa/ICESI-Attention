@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="add_supply.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>Supplies</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <form th:action="${addressRequest}" method="POST" th:object="${supply}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.consecutive}" th:value="${urgency.consecutive}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.date}" th:value="${urgency.date}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.patient}" th:value="${urgency.patient}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.generalDescription}" th:value="${urgency.generalDescription}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.procedure}" th:value="${urgency.procedure}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.forwarded}" th:value="${urgency.forwarded}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.forwardedPlace}" th:value="${urgency.forwardedPlace}">
+                <input type="hidden" th:if="${urgency != null}" th:field="${urgency.supplies}" th:value="${urgency.supplies}">
+
+                <div th:if="${urgency != null}">
+                    <div class="none_div" th:each="supply, itemStat : ${urgency.supplies}">
+
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].consecutive}">
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].medicine}">
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].quantity}">
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].patient}">
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].date}">
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].observations}">
+                        <input th:if="${urgency.supplies[__${itemStat.index}__] != null }" type="hidden" th:field="${urgency.supplies[__${itemStat.index}__].pathology}">
+
+                    </div>
+
+                </div>
+
+
+
+
+
+                <h1>
+                    <i class="fas fa-shipping-fast"></i> Supplies Details
+                </h1>
+                <div class="name">
+                    <div>
+                        <label for="consecutive">Consecutive <span class="warning_span" th:if="${existError != null}" th:text="${existError}"></span>
+                            <span class="warning_span" th:if="${#fields.hasErrors('consecutive')}" th:errors="${supply.consecutive}"></span></label>
+                        <input type="text" name="consecutive" th:field="${supply.consecutive}">
+                    </div>
+                    <div th:if="${urgency == null}">
+                        <label for="date">Date</label>
+                        <span class="warning_span" th:if="${#fields.hasErrors('date')}" th:errors="${supply.date}"></span>
+                        <input type="date" name="date" th:field="${supply.date}">
+                    </div>
+
+                    <input th:if="${urgency != null}" type="hidden" th:field="${supply.date}" th:value="${supply.date}">
+
+
+                </div>
+                <div class="street">
+                    <label th:if="${urgency == null}" for="patient">Patient <span class="warning_span" th:if="${#fields.hasErrors('patient')}" th:errors="${supply.patient}"></span> </label>
+                    <select name="patient" th:if="${urgency == null}" th:field="${supply.patient}">
+                        <option th:each="patient : ${patients}" th:value="${patient.document}" th:text="${''+patient.document+' - '+patient.names}"></option>
+                    </select>
+                    <input th:if="${urgency != null}" type="hidden" th:field="${supply.patient}" th:value="${supply.patient}">
+                    <!-- <input type="text" name="address"> -->
+                </div>
+
+                <div class="address-info">
+                    <div>
+                        <label for="pathology">Pathology <span class="warning_span" th:if="${#fields.hasErrors('pathology')}" th:errors="${supply.pathology}"></span></label>
+                        <input type="text" name="pathology" th:field="${supply.pathology}">
+                    </div>
+                    <div>
+                        <label for="medicine">Medicine <span class="warning_span" th:if="${#fields.hasErrors('medicine')}" th:errors="${supply.medicine}"></span></label>
+                        <select name="medicine" th:field="${supply.medicine}">
+                                <option th:each="medicine : ${medicines}" th:value="${medicine.consecutive}" th:text="${''+medicine.consecutive+' - '+medicine.name}"></option>
+                        </select>
+                        <!--<input type="text" name="state">-->
+                    </div>
+                    <div>
+                        <label for="quantity">Quantity <span class="warning_span" th:if="${quantityError != null}" th:text="${quantityError}"></span>
+                            <span class="warning_span" th:if="${#fields.hasErrors('quantity')}" th:errors="${supply.quantity}"></span>
+                        </label>
+                        <input type="number" name="quantity" th:field="${supply.quantity}">
+                    </div>
+                </div>
+                <h1>
+                    <i class="far fa-credit-card"></i> Observations
+                </h1>
+                <div class="cc-num">
+                    <label for="observations">Type observations  <span class="warning_span" th:if="${#fields.hasErrors('observations')}" th:errors="${supply.observations}"></span></label>
+                    <input type="text" name="observations" th:field="${supply.observations}">
+                </div>
+
+                <div class="btns">
+                    <input type="submit" name="action" value="Accept">
+                    <input type="submit" name="action" value="Cancel">
+                    <br>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

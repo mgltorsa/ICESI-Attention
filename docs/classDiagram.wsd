@@ -1,0 +1,59 @@
+@startuml
+
+namespace com.icesi #DDDDDD{
+    interface IUser as "IUser" {
+
+        +validate(patient : Patient) : boolean
+    }
+
+
+    class User {
+        -login : String
+        -password : char[]
+        -names : String
+        -lastNames : String
+
+    }
+
+    IUser <|.. User : <<implements>>
+
+}
+
+namespace com.icesi.model{
+
+
+    class Patient{
+
+        -name: String
+        -lastNames : String
+    }
+
+    class Info{
+        -data : String
+    }
+
+    Patient --> "1" Info : -info
+    com.icesi.User --> "0..1" com.icesi.model.Patient : -patient
+
+}
+
+namespace com.icesi.default{
+
+    class Default{
+        +{static} powa : String
+    }
+
+    Default --> "0..*" com.icesi.User : -users
+    Default --> "0..*" com.icesi.model.Patient : -patients
+}
+
+
+
+
+
+
+
+
+
+
+@enduml

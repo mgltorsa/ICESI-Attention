@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="add_urgency.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <title>Urgency Attention</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <form th:action="@{/attend-patient}" method="POST" th:object="${urgency}">
+                <h1><i class="fas fa-shipping-fast"></i> Attending patient
+                    <h4> <span class="warning_span" style="color:#493b76;font-size:12px">Nota: el ID del consecutivo se modificará a medida que agregue suministros</span>
+                    </h4>
+                </h1>
+                <div class="name">
+                    <div>
+                        <label for="f-name">Consecutive
+                <span class="warning_span" th:if="${#fields.hasErrors('consecutive')}" th:errors="${urgency.consecutive}"></span>
+                <span class="warning_span" th:if="${error != null}" th:text="${error}"></span></label>
+
+                        <input type="text" name="f-name" th:field="${urgency.consecutive}" />
+                    </div>
+                    <div>
+                        <label for="l-name">Date
+                <span class="warning_span" th:if="${#fields.hasErrors('date')}" th:errors="${urgency.date}"></span></label>
+                        <input type="date" name="l-name" th:field="${urgency.date}" />
+                    </div>
+                </div>
+                <div class="street">
+                    <label for="patient">Patient
+              <span class="warning_span" th:if="${#fields.hasErrors('patient')}" th:errors="*{patient}"></span></label>
+                    <select name="patient">
+              <option th:each="patient : ${patients}" th:value="${patient.document}" th:field="${urgency.patient}" th:text="${''+patient.document+' - '+patient.names}"
+              ></option>
+            </select>
+                    <!-- <input type="text" name="address"> -->
+                </div>
+                <div class="cc-num">
+                    <div>
+                        <label for="general-description">General Description <span class="warning_span" th:if="${#fields.hasErrors('generalDescription')}" th:errors="${urgency.generalDescription}"></span></label>
+                        <input type="text" name="general-description" th:field="${urgency.generalDescription}" />
+                    </div>
+                </div>
+                <h1><i class="far fa-credit-card"></i> Forward</h1>
+
+                <div class="name">
+                    <div>
+                        <input id="boolean-value" type="text" hidden th:field="${urgency.forwarded}">
+                        <label class="toggleButton">
+                            <input type="checkbox" id="forwarded-checkbox" checked="${urgency.forwarded}"/>
+                            <div>
+                                <svg viewBox="0 0 44 44">
+                                <path d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758" transform="translate(-2.000000, -2.000000)"></path>
+                                </svg>
+                            </div>
+                        </label>
+                    </div>
+                    <div id="forwarded-place">
+                        <label for="forwarded-place">Forwarded place </label>
+                        <input type="text" name="forwarded-place" th:field="${urgency.forwardedPlace}" />
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <h1><i class="far fa-credit-card"></i> Procedure</h1>
+                <div class="cc-num">
+                    <label for="observations">Type procedure <span class="warning_span" th:if="${#fields.hasErrors('procedure')}" th:errors="${urgency.procedure}"></span></label>
+                    <input type="text" name="observations" th:field="${urgency.procedure}" />
+                </div>
+                <div class="cc-num">
+                    <label for="supplies">Supplies</label>
+                    <input type="hidden" th:field="*{supplies}" th:value="*{supplies}">
+                    <ul name="supplies">
+                        <div class="none_div" th:each="supply, itemStat : *{supplies}">
+                            <li th:if="*{supplies[__${itemStat.index}__] != null}" th:text="*{''+supplies[__${itemStat.index}__].consecutive+' - '+supplies[__${itemStat.index}__].medicine.name+' - '+supplies[__${itemStat.index}__].quantity}"></li>
+
+                            <!-- Si se dania agregar esta condicion desde li hasta button -->
+                            <!-- th:if="*{supplies[__${itemStat.index}__] != null }" -->
+
+                            <!--For save supply list-->
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].consecutive}">
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].medicine}">
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].quantity}">
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].patient}">
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].date}">
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].observations}">
+                            <input th:if="*{supplies[__${itemStat.index}__] != null}" type="hidden" th:field="*{supplies[__${itemStat.index}__].pathology}">
+
+                            <button style="width:30%;border:none;background-color:beige;color: #8e2807" th:if="*{supplies[__${itemStat.index}__] != null}" type="submit" name="removeValue" th:value="*{supplies[__${itemStat.index}__].consecutive}">Remove</button>
+                        </div>
+                    </ul>
+                    <div class="btns">
+                        <input style="background-color: beige;color: #8e2807;" type="submit" name="action" value="Add" />
+                    </div>
+                </div>
+
+                <div class="btns">
+                    <input type="submit" name="action" value="Accept" />
+                    <input type="submit" name="action" value="Cancel" />
+                    <br />
+                    <div>
+                        <a th:href="@{/}"><i class="material-icons md-36 ">home</i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="add_urgency.js"></script>
+</body>
+
+</html>
